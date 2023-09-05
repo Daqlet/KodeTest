@@ -28,7 +28,6 @@ template <typename T>
 void GroupBy(list<Object>& objects, int groupCount, int (*getGroup)(const Object&), T (*groupToString)(int), string fileName) {
     vector<list<Object*>> groups(groupCount);
     for (auto& obj: objects) {
-        cout << getGroup(obj) << endl;
         groups[getGroup(obj)].push_back(&obj);
     }
     ofstream out(fileName);
@@ -69,7 +68,6 @@ int GetGroupByName(const Object& obj) {
         return 66;
     }
     auto first = obj.name[0];
-    cout << first << endl;
     if (first >= 'А' && first <= 'п') {
         return first - 'A';
     }
@@ -98,10 +96,8 @@ int GetGroupByCreatedAt(const Object& obj) {
     tm nowTm = *gmtime(&now);
     time_t createdAt = obj.createdAt;
     tm createdTm = *gmtime(&createdAt);
-    cout << ctime(&createdAt) << endl;
 
     if (nowTm.tm_year == createdTm.tm_year) {
-        cout << nowTm.tm_yday << " " << createdTm.tm_yday << endl;
         if (nowTm.tm_yday == createdTm.tm_yday) {
             return 0;
         } else if (nowTm.tm_yday == createdTm.tm_yday + 1) {
